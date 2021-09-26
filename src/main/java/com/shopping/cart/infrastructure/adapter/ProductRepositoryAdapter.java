@@ -7,6 +7,8 @@ import com.shopping.cart.infrastructure.adapter.repository.jpa.ProductJpaReposit
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.UUID;
+
 @Component
 @RequiredArgsConstructor
 public class ProductRepositoryAdapter implements ProductRepositoryPort {
@@ -33,7 +35,8 @@ public class ProductRepositoryAdapter implements ProductRepositoryPort {
         productEntity.setPrice(product.getPrice());
         productEntity.setProductType(product.getProductType());
         productEntity.setDescription(product.getDescription());
-        productEntity.setSku(product.getSku());
+        productEntity.setSku(UUID.randomUUID().toString());
         return  productEntity;
     }
+
 }
