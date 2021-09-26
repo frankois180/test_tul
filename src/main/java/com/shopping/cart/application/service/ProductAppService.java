@@ -3,9 +3,14 @@ package com.shopping.cart.application.service;
 import com.shopping.cart.domain.model.Product;
 import com.shopping.cart.domain.model.type.ProductType;
 import com.shopping.cart.domain.service.ProductService;
+import com.shopping.cart.infrastructure.adapter.shared.PageAsk;
 import com.shopping.cart.infrastructure.controller.dto.ProductDTO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
+
+import java.util.function.Supplier;
+import java.util.stream.Stream;
 
 @Component
 @RequiredArgsConstructor
@@ -17,7 +22,11 @@ public class ProductAppService {
         return fromDto(productService.save(fromDomain(productDTO)));
     }
 
-    private ProductDTO fromDto(Product product) {
+    public Supplier<Stream<ProductDTO>> findAll(PageAsk pageAsk) {
+        return ((Page<Product>) productService.findAll(pageAsk)).map(ProductAppService::fromDto);
+    }
+
+    private static ProductDTO fromDto(Product product) {
         ProductDTO productDTO = new ProductDTO();
         productDTO.setName(product.getName());
         productDTO.setDescription(product.getDescription());
@@ -27,7 +36,7 @@ public class ProductAppService {
         return productDTO;
     }
 
-    private Product fromDomain(ProductDTO productDTO) {
+    private static Product fromDomain(ProductDTO productDTO) {
         Product product = new Product();
         product.setName(productDTO.getName());
         product.setDescription(productDTO.getDescription());

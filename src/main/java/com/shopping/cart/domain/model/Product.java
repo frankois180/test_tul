@@ -6,9 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import java.math.BigDecimal;
 
 @Setter
@@ -25,11 +22,9 @@ public class Product {
 
     private BigDecimal price;
 
-    @Column(name = "product_ype")
-    @Enumerated(EnumType.STRING)
     private ProductType productType;
 
     public BigDecimal getTotalValue() {
-       return productType.equals(ProductType.SIMPLE) ? price : price.divide(BigDecimal.valueOf(2));
+        return productType.equals(ProductType.SIMPLE) ? price : price.divide(BigDecimal.valueOf(2));
     }
 }
