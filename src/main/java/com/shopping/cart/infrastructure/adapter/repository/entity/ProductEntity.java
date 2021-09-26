@@ -3,6 +3,7 @@ package com.shopping.cart.infrastructure.adapter.repository.entity;
 import com.shopping.cart.domain.model.type.ProductType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Column;
@@ -16,6 +17,7 @@ import java.util.UUID;
 @Setter
 @Getter
 @AllArgsConstructor
+@NoArgsConstructor
 @Entity(name = "product")
 public class ProductEntity {
     @Id
@@ -31,7 +33,4 @@ public class ProductEntity {
     @Enumerated(EnumType.STRING)
     private ProductType productType;
 
-    public ProductEntity() {
-        this.sku = UUID.randomUUID().toString();
-    }
 }

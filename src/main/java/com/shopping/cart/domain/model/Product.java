@@ -3,6 +3,7 @@ package com.shopping.cart.domain.model;
 import com.shopping.cart.domain.model.type.ProductType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Column;
@@ -13,6 +14,7 @@ import java.math.BigDecimal;
 @Setter
 @Getter
 @AllArgsConstructor
+@NoArgsConstructor
 public class Product {
 
     private String sku;
@@ -27,7 +29,7 @@ public class Product {
     @Enumerated(EnumType.STRING)
     private ProductType productType;
 
-    public  Product() {
-        this.price =  productType.equals(ProductType.SIMPLE) ? price : price.divide(BigDecimal.valueOf(2));
+    public BigDecimal getTotalValue() {
+       return productType.equals(ProductType.SIMPLE) ? price : price.divide(BigDecimal.valueOf(2));
     }
 }
