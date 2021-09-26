@@ -1,10 +1,10 @@
 package com.shopping.cart.domain.exception;
 
-import com.shopping.cart.infrastructure.config.ShoppingCardMessage;
+import com.shopping.cart.infrastructure.config.ShoppingCartMessage;
 
-public class DataNotFoundException extends ShoppingCardException {
+public class DataNotFoundException extends ShoppingCartException {
 
-    public DataNotFoundException(ShoppingCardNotificationCode notificationCode, Object ... param) {
-        super(ShoppingCardMessage.msg(notificationCode.getMessage(),param),notificationCode);
+    public DataNotFoundException(ShoppingCartNotificationCode notificationCode, Object ... param) {
+        super(ShoppingCartMessage.msg(notificationCode.getMessage(),param),notificationCode);
     }
 }

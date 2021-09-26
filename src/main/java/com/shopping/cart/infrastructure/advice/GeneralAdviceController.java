@@ -1,6 +1,6 @@
 package com.shopping.cart.infrastructure.advice;
 import com.shopping.cart.domain.exception.DataNotFoundException;
-import com.shopping.cart.domain.exception.ShoppingCardException;
+import com.shopping.cart.domain.exception.ShoppingCartException;
 import com.shopping.cart.infrastructure.controller.dto.ApiResponseDto;
 import com.shopping.cart.infrastructure.controller.dto.NotificationDto;
 import lombok.Getter;
@@ -36,7 +36,7 @@ public class GeneralAdviceController {
             UnexpectedException.class
     })
     public final ResponseEntity<ApiResponseDto> handleAllHandledExceptions(
-            ShoppingCardException exception) {
+            ShoppingCartException exception) {
 
         log.error(exception.getMessage(), exception);
 

@@ -5,7 +5,7 @@ import org.springframework.context.support.ReloadableResourceBundleMessageSource
 
 import java.util.Locale;
 
-public class ShoppingCardMessage {
+public class ShoppingCartMessage {
     public enum MsgName {
 
         INFO_API_NAME,
@@ -30,14 +30,14 @@ public class ShoppingCardMessage {
 
     }
 
-    public static String msg(ShoppingCardMessage.MsgName name) {
+    public static String msg(ShoppingCartMessage.MsgName name) {
 
         String asProperty = name.toString().toLowerCase().replace("_", ".");
         return accessor.getMessage(asProperty);
 
     }
 
-    public static String msg(ShoppingCardMessage.MsgName name, Object... params) {
+    public static String msg(ShoppingCartMessage.MsgName name, Object... params) {
 
         String asProperty = name.toString().toLowerCase().replace("_", ".");
         return accessor.getMessage(asProperty, params);
@@ -46,7 +46,7 @@ public class ShoppingCardMessage {
 
     public static String apiName() {
 
-        return msg(ShoppingCardMessage.MsgName.INFO_API_NAME);
+        return msg(ShoppingCartMessage.MsgName.INFO_API_NAME);
 
     }
 
