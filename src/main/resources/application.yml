@@ -1,0 +1,9 @@
+spring:
+  profiles:
+    active: local
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
+
+spring.jackson.generator.write_bigdecimal_as_plain: true

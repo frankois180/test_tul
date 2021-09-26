@@ -1,0 +1,29 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: shopping-cart-api
+  jackson:
+    property-naming-strategy: SNAKE_CASE
+  datasource:
+    username: sa
+    password: ''
+    url: jdbc:h2:mem:testdb;DB_CLOSE_ON_EXIT=FALSE;DB_CLOSE_DELAY=-1;MODE=Oracle;INIT=CREATE SCHEMA IF NOT EXISTS SHOPPING_CART_DB
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.Oracle10gDialect
+        default_schema: SHOPPING_CART_DB
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+
+logging:
+  level:
+    org.springframework.jdbc.core.JdbcTemplate: debug
+    org.hibernate.SQL: debug
+    org.hibernate.type.descriptor.sql.BasicBinder: debug
+    net.sf.jasperreports: debug
