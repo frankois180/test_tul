@@ -1,6 +1,7 @@
 package com.shopping.cart.domain.model.type;
 
 import com.shopping.cart.domain.exception.DataNotFoundException;
+import com.shopping.cart.domain.exception.ShoppingCardNotificationCode;
 
 public enum ProductType {
 
@@ -10,8 +11,7 @@ public enum ProductType {
         try {
             return ProductType.valueOf(desc.toUpperCase());
         } catch (IllegalArgumentException e) {
-            throw new DataNotFoundException(String.format("product type not found with the entered parameter, %s",
-                    desc));
+            throw new DataNotFoundException(ShoppingCardNotificationCode.PRODUCT_TYPE_NOT_FOUND, desc);
         }
     }
 
