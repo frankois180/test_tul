@@ -25,8 +25,13 @@ public class ProductService {
         return productRepositoryPort.findAll(pageAsk);
     }
 
-    public Product delete(String sku) {
-        return productRepositoryPort.delete(sku).orElseThrow(() -> new DataNotFoundException(
+    public Product deleteById(String sku) {
+        return productRepositoryPort.deleteById(sku).orElseThrow(() -> new DataNotFoundException(
+                ShoppingCartNotificationCode.DATA_NOT_FOUND, sku));
+    }
+
+    public Product updateById(String sku,Product product){
+        return productRepositoryPort.updateById(sku,product).orElseThrow(() -> new DataNotFoundException(
                 ShoppingCartNotificationCode.DATA_NOT_FOUND, sku));
     }
 }

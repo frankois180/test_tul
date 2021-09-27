@@ -26,10 +26,14 @@ public class ProductAppService {
         return ((Page<Product>) productService.findAll(pageAsk)).map(ProductAppService::fromDto);
     }
 
-    public  ProductDTO delete(String sku){
-      return  fromDto(productService.delete(sku));
-
+    public  ProductDTO deleteById(String sku){
+      return  fromDto(productService.deleteById(sku));
     }
+
+    public  ProductDTO updateById(String sku,ProductDTO productDTO){
+        return  fromDto(productService.updateById(sku,fromDomain(productDTO)));
+    }
+
 
     private static ProductDTO fromDto(Product product) {
         ProductDTO productDTO = new ProductDTO();

@@ -32,6 +32,15 @@ public interface ProductRepositoryPort {
      * @param sku: sku product
      * @return Product: Product deleted object
      */
-    Optional<Product> delete(String sku);
+    Optional<Product> deleteById(String sku);
+
+    /**
+     * Method to update a product by sku
+     *
+     * @param sku: sku product
+     * @return Product: Product updating object
+     */
+
+    Optional<Product> updateById(String sku,Product product);
 
 }
