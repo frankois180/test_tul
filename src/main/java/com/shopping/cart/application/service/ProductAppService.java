@@ -35,7 +35,7 @@ public class ProductAppService {
     }
 
 
-    private static ProductDTO fromDto(Product product) {
+    public static ProductDTO fromDto(Product product) {
         ProductDTO productDTO = new ProductDTO();
         productDTO.setName(product.getName());
         productDTO.setDescription(product.getDescription());
@@ -46,7 +46,7 @@ public class ProductAppService {
         return productDTO;
     }
 
-    private static Product fromDomain(ProductDTO productDTO) {
+    public static Product fromDomain(ProductDTO productDTO) {
         Product product = new Product();
         product.setName(productDTO.getName());
         product.setDescription(productDTO.getDescription());
