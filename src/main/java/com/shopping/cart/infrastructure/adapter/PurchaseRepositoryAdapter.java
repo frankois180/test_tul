@@ -11,6 +11,7 @@ import com.shopping.cart.infrastructure.adapter.repository.entity.PurchaseDetail
 import com.shopping.cart.infrastructure.adapter.repository.entity.PurchaseEntity;
 import com.shopping.cart.infrastructure.adapter.repository.jpa.ProductJpaRepository;
 import com.shopping.cart.infrastructure.adapter.repository.jpa.PurchaseJpaRepository;
+import com.shopping.cart.infrastructure.adapter.shared.PageAsk;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -18,7 +19,9 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.UUID;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Component
 @RequiredArgsConstructor
@@ -33,6 +36,13 @@ public class PurchaseRepositoryAdapter implements PurchaseRepositoryPort {
         BigDecimal totalValue = calculateTotalValue(amount, product.getTotalValue());
         return fromEntity(purchaseJpaRepository.save(fromDomain(sku, amount, totalValue, product)));
     }
+
+    @Override
+    public Purchase findByCode(String code) {
+        return fromEntity(purchaseJpaRepository.findById(code).orElseThrow(()->new DataNotFoundException(
+                ShoppingCartNotificationCode.DATA_NOT_FOUND)));
+    }
+
 
     private BigDecimal calculateTotalValue(BigDecimal amount, BigDecimal productValue) {
         return productValue.multiply(amount);
