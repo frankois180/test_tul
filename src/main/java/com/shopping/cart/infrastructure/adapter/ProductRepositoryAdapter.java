@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
@@ -20,13 +21,29 @@ public class ProductRepositoryAdapter implements ProductRepositoryPort {
 
     @Override
     public Product save(Product product) {
-        return fromEntity(productJpaRepository.save(fromDomain(product)));
+        String sku = UUID.randomUUID().toString();
+        return fromEntity(productJpaRepository.save(fromDomain(product, sku)));
     }
 
     @Override
     public Supplier<Stream<Product>> findAll(PageAsk pageAsk) {
         return productJpaRepository.findAll(PageRequest.of(pageAsk.getPage(),
                 pageAsk.getSize())).map(ProductRepositoryAdapter::fromEntity);
+    }
+
+    @Override
+    public Optional<Product> deleteById(String sku) {
+        return productJpaRepository.findById(sku).map(mapper -> {
+            productJpaRepository.delete(mapper);
+            return fromEntity(mapper);
+        });
+    }
+
+    @Override
+    public Optional<Product> updateById(String sku, Product product) {
+        return productJpaRepository.findById(sku)
+                .map(mapper -> fromEntity(productJpaRepository.save(fromDomain(product, mapper.getSku()))));
+
     }
 
     private static Product fromEntity(ProductEntity productEntity) {
@@ -39,13 +56,13 @@ public class ProductRepositoryAdapter implements ProductRepositoryPort {
         return product;
     }
 
-    private static ProductEntity fromDomain(Product product) {
+    private static ProductEntity fromDomain(Product product, String sku) {
         ProductEntity productEntity = new ProductEntity();
         productEntity.setName(product.getName());
         productEntity.setPrice(product.getPrice());
         productEntity.setProductType(product.getProductType());
         productEntity.setDescription(product.getDescription());
-        productEntity.setSku(UUID.randomUUID().toString());
+        productEntity.setSku(sku);
         return productEntity;
     }
 

@@ -17,6 +17,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 public class ProductDTO {
 
+    private String sku;
     @NotNull
     private String name;
     @NotNull
