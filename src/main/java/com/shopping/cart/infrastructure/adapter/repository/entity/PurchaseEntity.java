@@ -3,6 +3,7 @@ package com.shopping.cart.infrastructure.adapter.repository.entity;
 import com.shopping.cart.domain.model.type.PurchaseStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.CascadeType;
@@ -22,25 +23,20 @@ import java.util.UUID;
 @Setter
 @Getter
 @AllArgsConstructor
+@NoArgsConstructor
 @Entity(name = "purchase")
 public class PurchaseEntity {
+
     @Id
     private String code;
-    private String description;
+    @Column(name = "creation_date")
     private LocalDateTime creationDate;
     @Column(name = "product_ype")
     @Enumerated(EnumType.STRING)
     private PurchaseStatus status;
     private BigDecimal totalValue;
-    private String address;
-    private String phone;
-
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @JoinColumn(name = "purchaseCode")
     private List<PurchaseDetailEntity> details;
-
-    public PurchaseEntity() {
-        this.code = UUID.randomUUID().toString();
-    }
 
 }

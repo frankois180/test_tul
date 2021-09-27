@@ -46,7 +46,7 @@ public class ProductRepositoryAdapter implements ProductRepositoryPort {
 
     }
 
-    private static Product fromEntity(ProductEntity productEntity) {
+    public static Product fromEntity(ProductEntity productEntity) {
         Product product = new Product();
         product.setName(productEntity.getName());
         product.setPrice(productEntity.getPrice());
@@ -56,7 +56,7 @@ public class ProductRepositoryAdapter implements ProductRepositoryPort {
         return product;
     }
 
-    private static ProductEntity fromDomain(Product product, String sku) {
+    public static ProductEntity fromDomain(Product product, String sku) {
         ProductEntity productEntity = new ProductEntity();
         productEntity.setName(product.getName());
         productEntity.setPrice(product.getPrice());
