@@ -26,11 +26,17 @@ public class ProductAppService {
         return ((Page<Product>) productService.findAll(pageAsk)).map(ProductAppService::fromDto);
     }
 
+    public  ProductDTO delete(String sku){
+      return  fromDto(productService.delete(sku));
+
+    }
+
     private static ProductDTO fromDto(Product product) {
         ProductDTO productDTO = new ProductDTO();
         productDTO.setName(product.getName());
         productDTO.setDescription(product.getDescription());
         productDTO.setPrice(product.getPrice());
+        productDTO.setSku(product.getSku());
         productDTO.setProductType(ProductType.fromDesc(product.getProductType().name()).name());
 
         return productDTO;

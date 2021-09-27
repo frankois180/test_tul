@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
@@ -27,6 +28,14 @@ public class ProductRepositoryAdapter implements ProductRepositoryPort {
     public Supplier<Stream<Product>> findAll(PageAsk pageAsk) {
         return productJpaRepository.findAll(PageRequest.of(pageAsk.getPage(),
                 pageAsk.getSize())).map(ProductRepositoryAdapter::fromEntity);
+    }
+
+    @Override
+    public Optional<Product> delete(String sku) {
+       return productJpaRepository.findById(sku).map(mapper -> {
+            productJpaRepository.delete(mapper);
+            return fromEntity(mapper);
+        });
     }
 
     private static Product fromEntity(ProductEntity productEntity) {
