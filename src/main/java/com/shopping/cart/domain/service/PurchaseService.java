@@ -16,4 +16,8 @@ public class PurchaseService {
     public Purchase save(String sku, BigDecimal amount) {
         return purchaseRepositoryPort.save(sku, amount);
     }
+
+    public Purchase findByCode(String code) {
+        return purchaseRepositoryPort.findByCode(code);
+    }
 }

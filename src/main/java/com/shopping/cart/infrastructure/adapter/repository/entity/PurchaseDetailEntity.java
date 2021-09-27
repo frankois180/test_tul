@@ -34,6 +34,4 @@ public class PurchaseDetailEntity {
 
     private BigDecimal amount;
 
-
-
 }
