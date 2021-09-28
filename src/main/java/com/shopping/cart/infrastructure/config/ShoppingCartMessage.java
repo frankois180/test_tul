@@ -11,7 +11,8 @@ public class ShoppingCartMessage {
         INFO_API_NAME,
         DATA_NOT_FOUND,
         PRODUCT_TYPE_NOT_FOUND,
-        BAD_REQUEST;
+        BAD_REQUEST,
+        BAD_REQUEST_EMPTY;
 
     }
 

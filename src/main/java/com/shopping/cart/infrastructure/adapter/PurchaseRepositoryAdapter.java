@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -62,6 +63,27 @@ public class PurchaseRepositoryAdapter implements PurchaseRepositoryPort {
                         ShoppingCartNotificationCode.DATA_NOT_FOUND)));
     }
 
+    @Override
+    public Purchase deleteByCodeAndSku(String code, String sku) {
+        Purchase purchase = findByCode(code);
+        List<PurchaseDetail> details =
+                purchase.getDetails().stream().filter(mapper -> !mapper.getProduct().getSku().equals(sku))
+                        .collect(Collectors.toList());
+
+        shoppingCartIsEmpty(details, code);
+
+        return PurchaseMapper
+                .fromEntity(purchaseJpaRepository.save(PurchaseMapper.fromDomain(calculateTotalValue(details), code,
+                        details)));
+    }
+
+    private void shoppingCartIsEmpty(List<PurchaseDetail> details, String code) {
+        if (details.isEmpty()) {
+            purchaseJpaRepository.deleteById(code);
+            throw new BadRequestException(ShoppingCartNotificationCode.BAD_REQUEST_EMPTY);
+        }
+    }
+
     private void validateProductExistence(List<PurchaseDetail> details, String sku) {
         if (details.stream().anyMatch(mapper -> mapper.getProduct().getSku().equals(sku))) {
             throw new BadRequestException(ShoppingCartNotificationCode.BAD_REQUEST, sku);
@@ -100,7 +122,7 @@ public class PurchaseRepositoryAdapter implements PurchaseRepositoryPort {
         purchaseDetail.setProductValue(product.getTotalValue());
         purchaseDetail.setProduct(product);
         purchaseDetail.setTotalValue(calculateTotalValueProduct(amount, product.getTotalValue()));
-        return  purchaseDetail;
+        return purchaseDetail;
     }
 
 }
