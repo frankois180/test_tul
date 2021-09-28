@@ -28,4 +28,8 @@ public class PurchaseService {
     public Purchase deleteByCodeAndSku(String code, String sku) {
       return purchaseRepositoryPort.deleteByCodeAndSku(code, sku);
     }
+
+    public Purchase updateByCodeAndProductSku(String code, String sku,BigDecimal amount) {
+        return purchaseRepositoryPort.updateByCodeAndProductSku(code, sku,amount);
+    }
 }
