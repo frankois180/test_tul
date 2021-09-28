@@ -46,4 +46,13 @@ public interface PurchaseRepositoryPort {
      * @return Purchase: Purchase Object
      */
     Purchase deleteByCodeAndSku(String code,String sku);
+    /**
+     *  Method to update a product to  purchase
+     *
+     * @param code: purchase code
+     * @param sku: product sku
+     * @param amount: purchase amount
+     * @return Purchase: Purchase Object
+     */
+    Purchase updateByCodeAndProductSku(String code,String sku,BigDecimal amount);
 }

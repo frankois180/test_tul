@@ -77,6 +77,22 @@ public class PurchaseRepositoryAdapter implements PurchaseRepositoryPort {
                         details)));
     }
 
+    @Override
+    public Purchase updateByCodeAndProductSku(String code, String sku, BigDecimal amount) {
+        Purchase purchase = findByCode(code);
+
+        List<PurchaseDetail> details =
+                purchase.getDetails().stream().filter(mapper -> !mapper.getProduct().getSku().equals(sku))
+                        .collect(Collectors.toList());
+        Product product = validateProduct(sku);
+        details.add(addNewDetail(amount, product));
+
+        BigDecimal totalValue = calculateTotalValue(details);
+        return PurchaseMapper.fromEntity(purchaseJpaRepository.save(PurchaseMapper.fromDomain(totalValue,
+                code,
+                details)));
+    }
+
     private void shoppingCartIsEmpty(List<PurchaseDetail> details, String code) {
         if (details.isEmpty()) {
             purchaseJpaRepository.deleteById(code);
