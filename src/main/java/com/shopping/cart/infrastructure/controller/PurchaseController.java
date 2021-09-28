@@ -33,7 +33,7 @@ public class PurchaseController {
     public ApiResponseDto addCart(@Validated @RequestBody PurchaseRequest purchaseRequest,
                                   @PathVariable String purchaseCode) {
         return ApiResponseDto.builder()
-                .data(purchaseAppService.addNewProduct(purchaseRequest,purchaseCode))
+                .data(purchaseAppService.addNewProduct(purchaseRequest, purchaseCode))
                 .build();
     }
 
@@ -43,18 +43,24 @@ public class PurchaseController {
     }
 
     @DeleteMapping("/{code}/{sku}/delete")
-    public ApiResponseDto deleteById(@PathVariable String code,@PathVariable String sku) {
+    public ApiResponseDto deleteById(@PathVariable String code, @PathVariable String sku) {
         return ApiResponseDto.builder()
-                .data(purchaseAppService.deleteByCodeAndProductSku(code,sku))
+                .data(purchaseAppService.deleteByCodeAndProductSku(code, sku))
                 .build();
     }
 
     @PatchMapping("/{code}")
-    public ApiResponseDto updateByCodeAndProductSku(@PathVariable String code,@RequestBody PurchaseRequest purchaseRequest) {
+    public ApiResponseDto updateByCodeAndProductSku(@PathVariable String code,
+                                                    @RequestBody PurchaseRequest purchaseRequest) {
         return ApiResponseDto.builder()
-                .data(purchaseAppService.updateByCodeAndProductSku(code,purchaseRequest))
+                .data(purchaseAppService.updateByCodeAndProductSku(code, purchaseRequest))
                 .build();
     }
 
-
+    @PatchMapping("/{code}/checkout")
+    public ApiResponseDto checkout(@PathVariable String code) {
+        return ApiResponseDto.builder()
+                .data(purchaseAppService.checkout(code))
+                .build();
+    }
 }

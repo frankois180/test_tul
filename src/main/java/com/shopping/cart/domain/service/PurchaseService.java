@@ -32,4 +32,8 @@ public class PurchaseService {
     public Purchase updateByCodeAndProductSku(String code, String sku,BigDecimal amount) {
         return purchaseRepositoryPort.updateByCodeAndProductSku(code, sku,amount);
     }
+
+    public BigDecimal checkout(String code) {
+        return purchaseRepositoryPort.checkout(code);
+    }
 }

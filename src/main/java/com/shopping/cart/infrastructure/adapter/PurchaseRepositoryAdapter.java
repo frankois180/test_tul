@@ -6,8 +6,10 @@ import com.shopping.cart.domain.exception.ShoppingCartNotificationCode;
 import com.shopping.cart.domain.model.Product;
 import com.shopping.cart.domain.model.Purchase;
 import com.shopping.cart.domain.model.PurchaseDetail;
+import com.shopping.cart.domain.model.type.PurchaseStatus;
 import com.shopping.cart.domain.port.PurchaseRepositoryPort;
 import com.shopping.cart.infrastructure.adapter.repository.entity.PurchaseDetailEntity;
+import com.shopping.cart.infrastructure.adapter.repository.entity.PurchaseEntity;
 import com.shopping.cart.infrastructure.adapter.repository.jpa.ProductJpaRepository;
 import com.shopping.cart.infrastructure.adapter.repository.jpa.PurchaseJpaRepository;
 import com.shopping.cart.infrastructure.adapter.repository.mapper.ProductMapper;
@@ -41,6 +43,7 @@ public class PurchaseRepositoryAdapter implements PurchaseRepositoryPort {
     @Override
     public Purchase addProductCart(String sku, BigDecimal amount, String purchaseCode) {
         Purchase purchase = findByCode(purchaseCode);
+        validateStatusPurchase(purchase.getStatus());
         Product product = validateProduct(sku);
         List<PurchaseDetail> details = new ArrayList<>();
         details.addAll(purchase.getDetails());
@@ -66,6 +69,7 @@ public class PurchaseRepositoryAdapter implements PurchaseRepositoryPort {
     @Override
     public Purchase deleteByCodeAndSku(String code, String sku) {
         Purchase purchase = findByCode(code);
+        validateStatusPurchase(purchase.getStatus());
         List<PurchaseDetail> details =
                 purchase.getDetails().stream().filter(mapper -> !mapper.getProduct().getSku().equals(sku))
                         .collect(Collectors.toList());
@@ -80,7 +84,7 @@ public class PurchaseRepositoryAdapter implements PurchaseRepositoryPort {
     @Override
     public Purchase updateByCodeAndProductSku(String code, String sku, BigDecimal amount) {
         Purchase purchase = findByCode(code);
-
+        validateStatusPurchase(purchase.getStatus());
         List<PurchaseDetail> details =
                 purchase.getDetails().stream().filter(mapper -> !mapper.getProduct().getSku().equals(sku))
                         .collect(Collectors.toList());
@@ -91,6 +95,25 @@ public class PurchaseRepositoryAdapter implements PurchaseRepositoryPort {
         return PurchaseMapper.fromEntity(purchaseJpaRepository.save(PurchaseMapper.fromDomain(totalValue,
                 code,
                 details)));
+    }
+
+    @Override
+    public BigDecimal checkout(String code) {
+        PurchaseEntity purchaseEntity =
+                purchaseJpaRepository.findById(code)
+                        .orElseThrow(() -> new DataNotFoundException(ShoppingCartNotificationCode.DATA_NOT_FOUND));
+        validateStatusPurchase(purchaseEntity.getStatus());
+
+        purchaseEntity.setStatus(PurchaseStatus.COMPLETE);
+        purchaseJpaRepository.save(purchaseEntity);
+        return calculateTotalValue(purchaseEntity.getDetails().stream().map(PurchaseMapper::fromEntityDetail).collect(
+                Collectors.toList()));
+    }
+
+    private void validateStatusPurchase(PurchaseStatus purchaseStatus) {
+        if (PurchaseStatus.COMPLETE == purchaseStatus) {
+            throw new BadRequestException(ShoppingCartNotificationCode.BAD_REQUEST_STATE_PURCHASE);
+        }
     }
 
     private void shoppingCartIsEmpty(List<PurchaseDetail> details, String code) {
