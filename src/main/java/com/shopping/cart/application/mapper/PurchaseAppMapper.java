@@ -15,6 +15,7 @@ public class PurchaseAppMapper {
         purchaseDTO.setCreationDate(purchase.getCreationDate());
         purchaseDTO.setStatus(purchase.getStatus());
         purchaseDTO.setTotalValue(purchase.getTotalValue());
+        purchaseDTO.setPurchaseDate(purchase.getPurchaseDate());
         purchaseDTO.setDetails(purchase.getDetails().stream().map(PurchaseAppMapper::fromDomainDetail).collect(
                 Collectors.toList()));
         return purchaseDTO;

@@ -21,6 +21,7 @@ public class PurchaseDTO {
 
     private String code;
     private LocalDateTime creationDate;
+    private LocalDateTime purchaseDate;
     private PurchaseStatus status;
     private BigDecimal totalValue;
     private List<PurchaseDetailDTO> details;

@@ -7,6 +7,8 @@ import com.shopping.cart.infrastructure.controller.dto.PurchaseRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
+
 @Component
 @RequiredArgsConstructor
 public class PurchaseAppService {
@@ -27,9 +29,17 @@ public class PurchaseAppService {
         return PurchaseAppMapper.fromDomain(purchaseService.findByCode(code));
     }
 
-    public  PurchaseDTO deleteByCodeAndProductSku(String code,String sku){
-        return  PurchaseAppMapper.fromDomain(purchaseService.deleteByCodeAndSku(code,sku));
+    public PurchaseDTO deleteByCodeAndProductSku(String code, String sku) {
+        return PurchaseAppMapper.fromDomain(purchaseService.deleteByCodeAndSku(code, sku));
     }
 
+    public PurchaseDTO updateByCodeAndProductSku(String code, PurchaseRequest purchaseRequest) {
+        return PurchaseAppMapper.fromDomain(purchaseService.updateByCodeAndProductSku(code,
+                purchaseRequest.getSkuProduct(), purchaseRequest.getAmount()));
+    }
+
+    public BigDecimal checkout(String code) {
+        return purchaseService.checkout(code);
+    }
 
 }
