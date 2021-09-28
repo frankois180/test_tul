@@ -20,16 +20,15 @@ import java.util.UUID;
 @NoArgsConstructor
 @Entity(name = "product")
 public class ProductEntity {
+
     @Id
     private String sku;
-
+    @Column(nullable = false)
     private String name;
-
     private String description;
-
+    @Column(nullable = false)
     private BigDecimal price;
-
-    @Column(name = "product_ype")
+    @Column(name = "product_ype",nullable = false)
     @Enumerated(EnumType.STRING)
     private ProductType productType;
 

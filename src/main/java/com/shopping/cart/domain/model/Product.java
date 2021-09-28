@@ -15,15 +15,10 @@ import java.math.BigDecimal;
 public class Product {
 
     private String sku;
-
     private String name;
-
     private String description;
-
     private BigDecimal price;
-
     private ProductType productType;
-
     public BigDecimal getTotalValue() {
         return productType.equals(ProductType.SIMPLE) ? price : price.divide(BigDecimal.valueOf(2));
     }
