@@ -19,6 +19,7 @@ public class PurchaseMapper {
         purchase.setCreationDate(purchaseEntity.getCreationDate());
         purchase.setStatus(purchaseEntity.getStatus());
         purchase.setTotalValue(purchaseEntity.getTotalValue());
+        purchase.setPurchaseDate(purchaseEntity.getPurchaseDate());
         purchase.setDetails(
                 purchaseEntity.getDetails().stream().map(PurchaseMapper::fromEntityDetail).collect(
                         Collectors.toList()));

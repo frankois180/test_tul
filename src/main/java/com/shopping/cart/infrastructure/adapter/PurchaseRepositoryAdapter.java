@@ -18,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -105,6 +106,7 @@ public class PurchaseRepositoryAdapter implements PurchaseRepositoryPort {
         validateStatusPurchase(purchaseEntity.getStatus());
 
         purchaseEntity.setStatus(PurchaseStatus.COMPLETE);
+        purchaseEntity.setPurchaseDate(LocalDateTime.now());
         purchaseJpaRepository.save(purchaseEntity);
         return calculateTotalValue(purchaseEntity.getDetails().stream().map(PurchaseMapper::fromEntityDetail).collect(
                 Collectors.toList()));
