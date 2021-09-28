@@ -15,6 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Purchase {
+
     private String code;
     private LocalDateTime creationDate;
     private PurchaseStatus status;

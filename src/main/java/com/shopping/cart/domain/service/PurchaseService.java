@@ -17,6 +17,10 @@ public class PurchaseService {
         return purchaseRepositoryPort.save(sku, amount);
     }
 
+    public Purchase addNewProduct(String sku, BigDecimal amount,String purchaseCode) {
+        return purchaseRepositoryPort.addProductCart(sku, amount,purchaseCode);
+    }
+
     public Purchase findByCode(String code) {
         return purchaseRepositoryPort.findByCode(code);
     }

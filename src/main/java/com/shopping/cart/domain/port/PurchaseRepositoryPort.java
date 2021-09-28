@@ -20,6 +20,16 @@ public interface PurchaseRepositoryPort {
     Purchase save(String sku, BigDecimal amount);
 
     /**
+     * Method to add new product to purchase
+     *
+     * @param sku: sku product
+     * @param amount: amount product
+     * @param amount: purchaseCode product
+     * @return Purchase: Purchase object
+     */
+    Purchase addProductCart(String sku, BigDecimal amount,String purchaseCode);
+
+    /**
      *  Method to search all purchases
      *
      * @param code: purchase code
