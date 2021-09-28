@@ -35,7 +35,6 @@ public class PurchaseController {
                 .build();
     }
 
-
     @GetMapping("/{code}")
     public PurchaseDTO findByCode(@PathVariable String code) {
         return purchaseAppService.findByCode(code);

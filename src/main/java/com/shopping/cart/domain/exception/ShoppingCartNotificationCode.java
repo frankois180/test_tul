@@ -11,7 +11,9 @@ import lombok.Getter;
 public enum ShoppingCartNotificationCode {
 
     DATA_NOT_FOUND(ShoppingCartMessage.MsgName.DATA_NOT_FOUND, "IN_ERR_NF"),
-    PRODUCT_TYPE_NOT_FOUND(ShoppingCartMessage.MsgName.PRODUCT_TYPE_NOT_FOUND, "IN_PT_NF");
+    PRODUCT_TYPE_NOT_FOUND(ShoppingCartMessage.MsgName.PRODUCT_TYPE_NOT_FOUND, "IN_PT_NF"),
+
+    BAD_REQUEST(ShoppingCartMessage.MsgName.BAD_REQUEST, "IN_BR");
 
     private ShoppingCartMessage.MsgName message;
     private String apiCode;

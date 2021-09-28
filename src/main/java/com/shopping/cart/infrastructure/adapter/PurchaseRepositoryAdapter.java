@@ -1,5 +1,6 @@
 package com.shopping.cart.infrastructure.adapter;
 
+import com.shopping.cart.domain.exception.BadRequestException;
 import com.shopping.cart.domain.exception.DataNotFoundException;
 import com.shopping.cart.domain.exception.ShoppingCartNotificationCode;
 import com.shopping.cart.domain.model.Product;
@@ -41,13 +42,10 @@ public class PurchaseRepositoryAdapter implements PurchaseRepositoryPort {
         Purchase purchase = findByCode(purchaseCode);
         Product product = validateProduct(sku);
         List<PurchaseDetail> details = new ArrayList<>();
-        PurchaseDetail purchaseDetail = new PurchaseDetail();
-        purchaseDetail.setAmount(amount);
-        purchaseDetail.setProductValue(product.getTotalValue());
-        purchaseDetail.setProduct(product);
-        purchaseDetail.setTotalValue(calculateTotalValueProduct(amount, product.getTotalValue()));
         details.addAll(purchase.getDetails());
-        details.add(purchaseDetail);
+        validateProductExistence(details, sku);
+
+        details.add(addNewDetail(amount, product));
         purchase.setTotalValue(calculateTotalValue(purchase.getDetails()));
         BigDecimal totalValueProduct = calculateTotalValueProduct(amount, product.getTotalValue());
         BigDecimal totalValue = calculateTotalValue(purchase.getDetails()).add(totalValueProduct);
@@ -62,6 +60,12 @@ public class PurchaseRepositoryAdapter implements PurchaseRepositoryPort {
         return PurchaseMapper
                 .fromEntity(purchaseJpaRepository.findById(code).orElseThrow(() -> new DataNotFoundException(
                         ShoppingCartNotificationCode.DATA_NOT_FOUND)));
+    }
+
+    private void validateProductExistence(List<PurchaseDetail> details, String sku) {
+        if (details.stream().anyMatch(mapper -> mapper.getProduct().getSku().equals(sku))) {
+            throw new BadRequestException(ShoppingCartNotificationCode.BAD_REQUEST, sku);
+        }
     }
 
 
@@ -88,6 +92,15 @@ public class PurchaseRepositoryAdapter implements PurchaseRepositoryPort {
         purchaseDetailEntity.setProductValue(product.getTotalValue());
         purchaseDetailEntity.setProduct(ProductMapper.fromDomain(product, sku));
         return purchaseDetailEntity;
+    }
+
+    private PurchaseDetail addNewDetail(BigDecimal amount, Product product) {
+        PurchaseDetail purchaseDetail = new PurchaseDetail();
+        purchaseDetail.setAmount(amount);
+        purchaseDetail.setProductValue(product.getTotalValue());
+        purchaseDetail.setProduct(product);
+        purchaseDetail.setTotalValue(calculateTotalValueProduct(amount, product.getTotalValue()));
+        return  purchaseDetail;
     }
 
 }
