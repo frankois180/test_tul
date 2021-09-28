@@ -12,7 +12,8 @@ public class ShoppingCartMessage {
         DATA_NOT_FOUND,
         PRODUCT_TYPE_NOT_FOUND,
         BAD_REQUEST,
-        BAD_REQUEST_EMPTY;
+        BAD_REQUEST_EMPTY,
+        BAD_REQUEST_STATE_PURCHASE;
 
     }
 

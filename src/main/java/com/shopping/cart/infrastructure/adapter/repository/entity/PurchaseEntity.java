@@ -31,7 +31,9 @@ public class PurchaseEntity {
     private String code;
     @Column(name = "creation_date",nullable = false)
     private LocalDateTime creationDate;
-    @Column(name = "product_ype",nullable = false)
+    @Column(name = "purchase_date")
+    private LocalDateTime purchaseDate;
+    @Column(name = "status",nullable = false)
     @Enumerated(EnumType.STRING)
     private PurchaseStatus status;
     @Column(nullable = false)
