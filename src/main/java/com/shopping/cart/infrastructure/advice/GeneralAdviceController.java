@@ -1,4 +1,5 @@
 package com.shopping.cart.infrastructure.advice;
+import com.shopping.cart.domain.exception.BadRequestException;
 import com.shopping.cart.domain.exception.DataNotFoundException;
 import com.shopping.cart.domain.exception.ShoppingCartException;
 import com.shopping.cart.infrastructure.controller.dto.ApiResponseDto;
@@ -24,10 +25,9 @@ public class GeneralAdviceController {
 
     static {
 
-        ERROR_CATALOG.add(new ErrorDescriptor(DataNotFoundException.class,
-                HttpStatus.NOT_FOUND, HttpStatus.NOT_FOUND.toString()));
-        ERROR_CATALOG.add(new ErrorDescriptor(UnexpectedException.class,
-                HttpStatus.INTERNAL_SERVER_ERROR, HttpStatus.INTERNAL_SERVER_ERROR.toString()));
+        ERROR_CATALOG.add(new ErrorDescriptor(DataNotFoundException.class, HttpStatus.NOT_FOUND, HttpStatus.NOT_FOUND.toString()));
+        ERROR_CATALOG.add(new ErrorDescriptor(UnexpectedException.class, HttpStatus.INTERNAL_SERVER_ERROR, HttpStatus.INTERNAL_SERVER_ERROR.toString()));
+        ERROR_CATALOG.add(new ErrorDescriptor(BadRequestException.class, HttpStatus.INTERNAL_SERVER_ERROR, HttpStatus.BAD_REQUEST.toString()));
 
     }
 
