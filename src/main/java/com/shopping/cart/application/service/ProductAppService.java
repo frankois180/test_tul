@@ -1,7 +1,7 @@
 package com.shopping.cart.application.service;
 
+import com.shopping.cart.application.mapper.ProductAppMapper;
 import com.shopping.cart.domain.model.Product;
-import com.shopping.cart.domain.model.type.ProductType;
 import com.shopping.cart.domain.service.ProductService;
 import com.shopping.cart.infrastructure.adapter.shared.PageAsk;
 import com.shopping.cart.infrastructure.controller.dto.ProductDTO;
@@ -19,41 +19,20 @@ public class ProductAppService {
     private final ProductService productService;
 
     public ProductDTO save(ProductDTO productDTO) {
-        return fromDto(productService.save(fromDomain(productDTO)));
+        return ProductAppMapper.fromDto(productService.save(ProductAppMapper.fromDomain(productDTO)));
     }
 
     public Supplier<Stream<ProductDTO>> findAll(PageAsk pageAsk) {
-        return ((Page<Product>) productService.findAll(pageAsk)).map(ProductAppService::fromDto);
+        return ((Page<Product>) productService.findAll(pageAsk)).map(ProductAppMapper::fromDto);
     }
 
-    public  ProductDTO deleteById(String sku){
-      return  fromDto(productService.deleteById(sku));
+    public ProductDTO deleteById(String sku) {
+        return ProductAppMapper.fromDto(productService.deleteById(sku));
     }
 
-    public  ProductDTO updateById(String sku,ProductDTO productDTO){
-        return  fromDto(productService.updateById(sku,fromDomain(productDTO)));
+    public ProductDTO updateById(String sku, ProductDTO productDTO) {
+        return ProductAppMapper.fromDto(productService.updateById(sku, ProductAppMapper.fromDomain(productDTO)));
     }
 
-
-    public static ProductDTO fromDto(Product product) {
-        ProductDTO productDTO = new ProductDTO();
-        productDTO.setName(product.getName());
-        productDTO.setDescription(product.getDescription());
-        productDTO.setPrice(product.getPrice());
-        productDTO.setSku(product.getSku());
-        productDTO.setProductType(ProductType.fromDesc(product.getProductType().name()).name());
-
-        return productDTO;
-    }
-
-    public static Product fromDomain(ProductDTO productDTO) {
-        Product product = new Product();
-        product.setName(productDTO.getName());
-        product.setDescription(productDTO.getDescription());
-        product.setPrice(productDTO.getPrice());
-        product.setProductType(ProductType.fromDesc(productDTO.getProductType()));
-
-        return product;
-    }
 
 }

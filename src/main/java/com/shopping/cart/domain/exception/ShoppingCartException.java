@@ -14,11 +14,4 @@ public class ShoppingCartException extends RuntimeException {
 
     }
 
-    public ShoppingCartException(String message, ShoppingCartNotificationCode notificationCode, Throwable cause) {
-
-        super(message, cause);
-        this.notificationCode = notificationCode;
-
-    }
-
 }
