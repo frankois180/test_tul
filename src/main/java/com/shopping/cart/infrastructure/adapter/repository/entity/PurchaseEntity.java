@@ -29,11 +29,12 @@ public class PurchaseEntity {
 
     @Id
     private String code;
-    @Column(name = "creation_date")
+    @Column(name = "creation_date",nullable = false)
     private LocalDateTime creationDate;
-    @Column(name = "product_ype")
+    @Column(name = "product_ype",nullable = false)
     @Enumerated(EnumType.STRING)
     private PurchaseStatus status;
+    @Column(nullable = false)
     private BigDecimal totalValue;
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @JoinColumn(name = "purchaseCode")

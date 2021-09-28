@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -24,14 +25,14 @@ public class PurchaseDetailEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    @Column(nullable = false)
     private BigDecimal productValue;
-
+    @Column(nullable = false)
     private BigDecimal totalValue;
     @OneToOne
     @JoinColumn(name="productSku")
     private ProductEntity product;
-
+    @Column(nullable = false)
     private BigDecimal amount;
 
 }
